@@ -6,18 +6,17 @@
 **公司**: 伟仕佳杰 (VSTECS) | AWS Partner  
 **邮箱**: renjun.wang@vstecs.com  
 **创建时间**: 2026-04-21  
-**交付客户**: 阳光电源 (Sungrow) HEMS 项目  
-**适用集群**: hems-eu-k8s (eu-central-1, 账号 872515264289)
+**适用集群**: <cluster-name> (<region>, 账号 <AWS-Account-ID>)
 
 ---
 
 ## 一、打开 CloudShell
 
-1. 登录 AWS 控制台（账号 872515264289）
-2. 确认右上角区域为 **eu-central-1（法兰克福）**
+1. 登录 AWS 控制台（账号 <AWS-Account-ID>）
+2. 确认右上角区域为 **<region>（<区域>）**
 3. 点击右上角 `>_` 图标，或直接访问：
    ```
-   https://eu-central-1.console.aws.amazon.com/cloudshell/home?region=eu-central-1
+   https://<region>.console.aws.amazon.com/cloudshell/home?region=<region>
    ```
 4. 等待终端加载完成（首次约 30 秒）
 
@@ -30,7 +29,7 @@
 
 ```bash
 # 配置 kubectl 连接到 EKS 集群
-aws eks update-kubeconfig --name hems-eu-k8s --region eu-central-1
+aws eks update-kubeconfig --name <cluster-name> --region <region>
 
 # 验证连接
 kubectl get svc
@@ -256,8 +255,8 @@ kubectl logs <pod名称> -n <命名空间> --previous
 # 查看节点状态详情
 kubectl describe node <节点名>
 # 检查节点组状态
-aws eks describe-nodegroup --cluster-name hems-eu-k8s \
-  --nodegroup-name <节点组名> --region eu-central-1
+aws eks describe-nodegroup --cluster-name <cluster-name> \
+  --nodegroup-name <节点组名> --region <region>
 ```
 
 ### 5.3 查看集群事件
@@ -278,14 +277,14 @@ kubectl get events -n <命名空间> --sort-by='.lastTimestamp'
 
 ```bash
 # 集群详情
-aws eks describe-cluster --name hems-eu-k8s --region eu-central-1
+aws eks describe-cluster --name <cluster-name> --region <region>
 
 # 节点组列表
-aws eks list-nodegroups --cluster-name hems-eu-k8s --region eu-central-1
+aws eks list-nodegroups --cluster-name <cluster-name> --region <region>
 
 # 节点组详情
-aws eks describe-nodegroup --cluster-name hems-eu-k8s \
-  --nodegroup-name hems-business --region eu-central-1
+aws eks describe-nodegroup --cluster-name <cluster-name> \
+  --nodegroup-name <nodegroup-name> --region <region>
 ```
 
 ### 6.2 节点组扩缩容
@@ -293,21 +292,21 @@ aws eks describe-nodegroup --cluster-name hems-eu-k8s \
 ```bash
 # 修改节点组大小（例如从 3 扩到 5）
 aws eks update-nodegroup-config \
-  --cluster-name hems-eu-k8s \
-  --nodegroup-name hems-business \
+  --cluster-name <cluster-name> \
+  --nodegroup-name <nodegroup-name> \
   --scaling-config minSize=5,maxSize=5,desiredSize=5 \
-  --region eu-central-1
+  --region <region>
 ```
 
 ### 6.3 查看附加组件
 
 ```bash
 # 列出已安装的附加组件
-aws eks list-addons --cluster-name hems-eu-k8s --region eu-central-1
+aws eks list-addons --cluster-name <cluster-name> --region <region>
 
 # 查看附加组件详情
-aws eks describe-addon --cluster-name hems-eu-k8s \
-  --addon-name vpc-cni --region eu-central-1
+aws eks describe-addon --cluster-name <cluster-name> \
+  --addon-name vpc-cni --region <region>
 ```
 
 ---
